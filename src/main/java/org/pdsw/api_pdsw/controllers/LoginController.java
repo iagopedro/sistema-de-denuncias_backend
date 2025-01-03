@@ -24,8 +24,4 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized. Invalid credentials!");
     }
 
-    public ResponseEntity<UserResponseDTO> getUser(String username) {
-        UserResponseDTO userResponseDTO = this.userService.getUserByUsername(username);
-        return ResponseEntity.ok(userResponseDTO);
-    }
 }

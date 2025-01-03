@@ -25,4 +25,12 @@ public class UserService {
         User user = userRepository.findByUsername(username);
         return new UserResponseDTO(user.getUsername(), user.getPassword());
     }
+
+    public UserResponseDTO createUser(User userRequestDTO) {
+        User user = new User();
+        user.setUsername(userRequestDTO.getUsername());
+        user.setPassword(userRequestDTO.getPassword());
+        this.userRepository.save(user);
+        return new UserResponseDTO(user.getUsername(), user.getPassword());
+    }
 }
