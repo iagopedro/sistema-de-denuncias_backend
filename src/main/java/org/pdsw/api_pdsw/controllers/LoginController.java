@@ -1,7 +1,11 @@
 package org.pdsw.api_pdsw.controllers;
 
+import org.pdsw.api_pdsw.dto.UserRequestDTO;
+import org.pdsw.api_pdsw.dto.UserResponseDTO;
 import org.pdsw.api_pdsw.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,11 +15,17 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+
     @PostMapping
-    public String login(@RequestParam String username, @RequestParam String password) {
-        if (userService.authenticate(username, password)) {
-            return "Login successful";
+    public ResponseEntity<String> login(@RequestBody UserRequestDTO userRequestDTO) {
+        if (userService.authenticate(userRequestDTO.getUsername(), userRequestDTO.getPassword())) {
+            return ResponseEntity.ok().body("Login successful");
         }
-        return "Username or password invalid!";
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized. Invalid credentials!");
+    }
+
+    public ResponseEntity<UserResponseDTO> getUser(String username) {
+        UserResponseDTO userResponseDTO = this.userService.getUserByUsername(username);
+        return ResponseEntity.ok(userResponseDTO);
     }
 }
