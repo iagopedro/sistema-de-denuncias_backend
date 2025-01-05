@@ -14,12 +14,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public ResponseEntity<UserResponseDTO> getUser(String username) {
-        UserResponseDTO userResponseDTO = this.userService.getUserByUsername(username);
-        return ResponseEntity.ok(userResponseDTO);
-    }
-
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserRequestDTO userRequestDTO) {
         User newUser = new User();
@@ -28,4 +22,20 @@ public class UserController {
         this.userService.createUser(newUser);
         return ResponseEntity.ok("User created");
     }
+
+    @GetMapping()
+    public ResponseEntity<UserResponseDTO> getUser(@RequestParam long id) {
+        UserResponseDTO userResponseDTO = this.userService.getUserById(id);
+        return ResponseEntity.ok(userResponseDTO);
+    }
+
+    @PutMapping
+    public ResponseEntity<String> updateUser(@RequestBody UserRequestDTO userRequestDTO) {
+        User newUser = new User();
+        newUser.setUsername(userRequestDTO.getUsername());
+        newUser.setPassword(userRequestDTO.getPassword());
+        userService.updateUser(userRequestDTO);
+        return ResponseEntity.ok("User updated");
+    }
+
 }
