@@ -4,7 +4,6 @@ import org.pdsw.api_pdsw.dto.UserRequestDTO;
 import org.pdsw.api_pdsw.dto.UserResponseDTO;
 import org.pdsw.api_pdsw.entities.User;
 import org.pdsw.api_pdsw.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +12,14 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public boolean authenticate(String username, String password) {
-        //TODO: preciso pegar a lista de todos os usuários e verificar se "username" e "password" estão corretos
-        List<User> users = this.userRepository.findAll();
+        List<User> users = this.getAllUsers();
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 return true;
@@ -44,12 +45,16 @@ public class UserService {
         return new UserResponseDTO(user.getUsername(), user.getPassword());
     }
 
-    public UserResponseDTO updateUser(UserRequestDTO userRequestDTO) {
-        Optional<User> user = this.userRepository.findById(userRequestDTO.getId());
+    public UserResponseDTO updateUser(long id, UserRequestDTO userRequestDTO) {
+        Optional<User> user = this.userRepository.findById(id);
         user.get().setUsername(userRequestDTO.getUsername());
         user.get().setPassword(userRequestDTO.getPassword());
-        this.userRepository.save(user);
-        return new UserResponseDTO(user.get().getUsername(), user.get().getPassword());
+        if (user.isPresent()) {
+            User updatedUser = this.userRepository.save(user.get());
+            return new UserResponseDTO(updatedUser.getUsername(), updatedUser.getPassword());
+        } else {
+            throw new RuntimeException("User not found");
+        }
     }
 
 }
