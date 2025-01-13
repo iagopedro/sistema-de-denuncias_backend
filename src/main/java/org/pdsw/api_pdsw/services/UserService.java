@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return this.userRepository.findAll();
     }
 
     public UserResponseDTO getUserById(long id) {
@@ -40,6 +40,7 @@ public class UserService {
     public UserResponseDTO createUser(User userRequestDTO) {
         User user = new User();
         user.setUsername(userRequestDTO.getUsername());
+        //TODO: adicionar criptografia na criação da senha
         user.setPassword(userRequestDTO.getPassword());
         this.userRepository.save(user);
         return new UserResponseDTO(user.getUsername(), user.getPassword());
