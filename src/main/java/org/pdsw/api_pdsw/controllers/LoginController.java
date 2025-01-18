@@ -1,6 +1,7 @@
 package org.pdsw.api_pdsw.controllers;
 
 import org.pdsw.api_pdsw.dto.UserRequestDTO;
+import org.pdsw.api_pdsw.services.PasswordService;
 import org.pdsw.api_pdsw.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final UserService userService;
+    private final PasswordService passwordService;
 
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, PasswordService passwordService) {
         this.userService = userService;
+        this.passwordService = passwordService;
     }
 
     @PostMapping
@@ -21,7 +24,7 @@ public class LoginController {
         if (userService.authenticate(userRequestDTO.getUsername(), userRequestDTO.getPassword())) {
             return ResponseEntity.ok().body("Login successful");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized. Invalid credentials!");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found. Invalid credentials!");
     }
 
 }

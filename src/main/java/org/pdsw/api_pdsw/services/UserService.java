@@ -13,15 +13,18 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordService passwordService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordService passwordService) {
         this.userRepository = userRepository;
+        this.passwordService = passwordService;
     }
 
     public boolean authenticate(String username, String password) {
         List<User> users = this.getAllUsers();
         for (User user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+            String decryptedPassword = this.passwordService.decryptPassword(user.getPassword());
+            if (user.getUsername().equals(username) && decryptedPassword.equals(password)) {
                 return true;
             }
         }
@@ -39,9 +42,9 @@ public class UserService {
 
     public UserResponseDTO createUser(User userRequestDTO) {
         User user = new User();
+        String encryptedPassword = this.passwordService.encryptPassword(userRequestDTO.getPassword());
         user.setUsername(userRequestDTO.getUsername());
-        //TODO: adicionar criptografia na criação da senha
-        user.setPassword(userRequestDTO.getPassword());
+        user.setPassword(encryptedPassword);
         this.userRepository.save(user);
         return new UserResponseDTO(user.getUsername(), user.getPassword());
     }
