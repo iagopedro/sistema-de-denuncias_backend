@@ -1,25 +1,23 @@
 package org.pdsw.api_pdsw.services;
 
-import org.jasypt.encryption.StringEncryptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PasswordService {
 
-    private final StringEncryptor encryptor;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public PasswordService(@Qualifier("jasyptStringEncryptor") StringEncryptor encryptor) {
-        this.encryptor = encryptor;
+    public PasswordService() {
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public String encryptPassword(String plainTextPassword) {
-        return encryptor.encrypt(plainTextPassword);
+    public String hashPassword(String plainTextPassword) {
+        return passwordEncoder.encode(plainTextPassword);
     }
 
-    public String decryptPassword(String encryptedPassword) {
-        return encryptor.decrypt(encryptedPassword);
+    public boolean verifyPassword(String plainTextPassword, String hashedPassword) {
+        return passwordEncoder.matches(plainTextPassword, hashedPassword);
     }
 }

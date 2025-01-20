@@ -23,8 +23,7 @@ public class UserService {
     public boolean authenticate(String username, String password) {
         List<User> users = this.getAllUsers();
         for (User user : users) {
-            String decryptedPassword = this.passwordService.decryptPassword(user.getPassword());
-            if (user.getUsername().equals(username) && decryptedPassword.equals(password)) {
+            if (user.getUsername().equals(username) && passwordService.verifyPassword(password, user.getPassword())) {
                 return true;
             }
         }
@@ -42,9 +41,9 @@ public class UserService {
 
     public UserResponseDTO createUser(User userRequestDTO) {
         User user = new User();
-        String encryptedPassword = this.passwordService.encryptPassword(userRequestDTO.getPassword());
+        String hashedPassword = this.passwordService.hashPassword(userRequestDTO.getPassword());
         user.setUsername(userRequestDTO.getUsername());
-        user.setPassword(encryptedPassword);
+        user.setPassword(hashedPassword);
         this.userRepository.save(user);
         return new UserResponseDTO(user.getUsername(), user.getPassword());
     }

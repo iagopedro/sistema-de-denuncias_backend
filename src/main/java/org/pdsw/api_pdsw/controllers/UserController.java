@@ -1,12 +1,10 @@
 package org.pdsw.api_pdsw.controllers;
 
-import org.jasypt.encryption.StringEncryptor;
 import org.pdsw.api_pdsw.dto.UserRequestDTO;
 import org.pdsw.api_pdsw.dto.UserResponseDTO;
 import org.pdsw.api_pdsw.entities.User;
 import org.pdsw.api_pdsw.services.PasswordService;
 import org.pdsw.api_pdsw.services.UserService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +23,8 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserRequestDTO userRequestDTO) {
         User newUser = new User();
-        String encryptedPassword = this.passwordService.encryptPassword(userRequestDTO.getPassword());
         newUser.setUsername(userRequestDTO.getUsername());
-        newUser.setPassword(encryptedPassword);
+        newUser.setPassword(userRequestDTO.getPassword());
         this.userService.createUser(newUser);
         return ResponseEntity.ok("User created");
     }
