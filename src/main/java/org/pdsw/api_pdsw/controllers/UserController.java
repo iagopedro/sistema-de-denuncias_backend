@@ -23,8 +23,9 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserRequestDTO userRequestDTO) {
         User newUser = new User();
+        newUser.setName(userRequestDTO.getName());
         newUser.setUsername(userRequestDTO.getUsername());
-        newUser.setPassword(userRequestDTO.getPassword());
+        newUser.setPassword(passwordService.hashPassword(userRequestDTO.getPassword()));
         this.userService.createUser(newUser);
         return ResponseEntity.ok("User created");
     }
@@ -38,8 +39,9 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable long id, @RequestBody UserRequestDTO userRequestDTO) {
         User newUser = new User();
+        newUser.setName(userRequestDTO.getName());
         newUser.setUsername(userRequestDTO.getUsername());
-        newUser.setPassword(userRequestDTO.getPassword());
+        newUser.setPassword(passwordService.hashPassword(userRequestDTO.getPassword()));
         this.userService.updateUser(id, userRequestDTO);
         return ResponseEntity.ok("User updated");
     }

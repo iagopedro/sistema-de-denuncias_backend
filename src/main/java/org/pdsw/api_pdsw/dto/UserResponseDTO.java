@@ -2,14 +2,24 @@ package org.pdsw.api_pdsw.dto;
 
 public class UserResponseDTO {
 
+    private String name;
     private String username;
     private String password;
-
-    public UserResponseDTO(String username, String password) {
+    
+    public UserResponseDTO(String name, String username, String password) {
+        this.name = name;
         this.username = username;
         this.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public String getUsername() {
         return username;
     }
