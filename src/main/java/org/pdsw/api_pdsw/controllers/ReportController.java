@@ -28,8 +28,6 @@ public class ReportController {
       return ResponseEntity.ok(reports);
   }
 
-  // Add more endpoints for creating, updating, and deleting reports as needed
-  // For example:
   @PostMapping
   public ResponseEntity<Report> createReport(@RequestBody Report report) {
       Report createdReport = reportService.createReport(report);
