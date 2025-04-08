@@ -24,7 +24,7 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO) {
         User newUser = new User();
         newUser.setName(userRequestDTO.getName());
-        newUser.setUsername(userRequestDTO.getUsername());
+        newUser.setEmail(userRequestDTO.getEmail());
         newUser.setPassword(userRequestDTO.getPassword());
         UserResponseDTO createdUser = this.userService.createUser(newUser);
         return ResponseEntity.ok(createdUser);
@@ -40,7 +40,7 @@ public class UserController {
     public ResponseEntity<String> updateUser(@PathVariable long id, @RequestBody UserRequestDTO userRequestDTO) {
         User newUser = new User();
         newUser.setName(userRequestDTO.getName());
-        newUser.setUsername(userRequestDTO.getUsername());
+        newUser.setEmail(userRequestDTO.getEmail());
         newUser.setPassword(userRequestDTO.getPassword());
         this.userService.updateUser(id, userRequestDTO);
         return ResponseEntity.ok("User updated");

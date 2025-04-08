@@ -20,7 +20,7 @@ public class UserService {
         this.passwordService = passwordService;
     }
 
-    public boolean authenticate(String username, String password) {
+    public boolean authenticate(String email, String password) {
         List<User> users = this.getAllUsers();
         if (users.isEmpty()) {
             return false;
@@ -28,7 +28,7 @@ public class UserService {
         
         for (User user : users) {
             var hashedPassword = user.getPassword();
-            if (user.getUsername().equals(username) && passwordService.verifyPassword(password, hashedPassword)) {
+            if (user.getEmail().equals(email) && passwordService.verifyPassword(password, hashedPassword)) {
                 return true;
             }
         }
@@ -41,28 +41,28 @@ public class UserService {
 
     public UserResponseDTO getUserById(long id) {
         Optional<User> user = this.userRepository.findById(id);
-        return new UserResponseDTO(user.get().getName(), user.get().getUsername(), user.get().getPassword());
+        return new UserResponseDTO(user.get().getName(), user.get().getEmail(), user.get().getPassword());
     }
 
     public UserResponseDTO createUser(User userRequestDTO) {
         User user = new User();
         user.setName(userRequestDTO.getName());
-        user.setUsername(userRequestDTO.getUsername());
+        user.setEmail(userRequestDTO.getEmail());
         String hashedPassword = this.passwordService.hashPassword(userRequestDTO.getPassword());
         user.setPassword(hashedPassword);
         this.userRepository.save(user);
-        return new UserResponseDTO(user.getName(), user.getUsername(), user.getPassword());
+        return new UserResponseDTO(user.getName(), user.getEmail(), user.getPassword());
     }
 
     public UserResponseDTO updateUser(long id, UserRequestDTO userRequestDTO) {
         Optional<User> user = this.userRepository.findById(id);
         if (user.isPresent()) {
             user.get().setName(userRequestDTO.getName());
-            user.get().setUsername(userRequestDTO.getUsername());
+            user.get().setEmail(userRequestDTO.getEmail());
             String hashedPassword = this.passwordService.hashPassword(userRequestDTO.getPassword());
             user.get().setPassword(hashedPassword);
             User updatedUser = this.userRepository.save(user.get());
-            return new UserResponseDTO(updatedUser.getName(), updatedUser.getUsername(), updatedUser.getPassword());
+            return new UserResponseDTO(updatedUser.getName(), updatedUser.getEmail(), updatedUser.getPassword());
         } else {
             throw new RuntimeException("User not found");
         }

@@ -19,7 +19,7 @@ public class LoginController {
 
     @PostMapping
     public ResponseEntity<String> login(@RequestBody UserRequestDTO userRequestDTO) {
-        if (userService.authenticate(userRequestDTO.getUsername(), userRequestDTO.getPassword())) {
+        if (userService.authenticate(userRequestDTO.getEmail(), userRequestDTO.getPassword())) {
             return ResponseEntity.ok().body("Login successful");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found. Invalid credentials!");
