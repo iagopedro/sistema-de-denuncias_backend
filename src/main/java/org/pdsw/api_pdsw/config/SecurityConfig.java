@@ -41,9 +41,6 @@ public class SecurityConfig {
                 .frameOptions(frameOptions -> frameOptions.sameOrigin())
             ) // Allow frames for H2 console
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/login").permitAll()
-                .requestMatchers("/user").permitAll()
                 .requestMatchers("/h2-console/**").permitAll() // Allow H2 Console access
                 .anyRequest().authenticated() // Authenticate other requests
             )
