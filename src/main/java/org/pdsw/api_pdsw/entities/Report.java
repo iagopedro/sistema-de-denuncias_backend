@@ -36,13 +36,28 @@ public class Report {
   @Column(nullable = false)
   private Category type;
 
+  @Column(nullable = false)
+  private String number;
+
+  @Column(nullable = false)
+  private String street;
+
+  @Column(nullable = false)
+  private String city;
+
+  @Column(nullable = false)
+  private String state;
+
+  @Column(nullable = false)
+  private String neighborhood;
+
   @OneToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
  
-  @OneToOne
-  @JoinColumn(name = "location_id", nullable = false)
-  private Location location;
+  // @OneToOne
+  // @JoinColumn(name = "location_id", nullable = false)
+  // private Location location;
   
   @OneToOne
   @JoinColumn(name = "cooperative_id", nullable = true)
