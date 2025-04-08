@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import org.pdsw.api_pdsw.entities.enums.Category;
 import org.pdsw.api_pdsw.entities.enums.ReportStatus;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

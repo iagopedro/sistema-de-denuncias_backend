@@ -1,7 +1,6 @@
 package org.pdsw.api_pdsw.controllers;
 
 import org.pdsw.api_pdsw.dto.UserRequestDTO;
-import org.pdsw.api_pdsw.services.PasswordService;
 import org.pdsw.api_pdsw.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +23,4 @@ public class LoginController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found. Invalid credentials!");
     }
-
 }
