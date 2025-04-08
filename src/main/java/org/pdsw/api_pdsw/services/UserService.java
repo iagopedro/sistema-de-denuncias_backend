@@ -22,8 +22,13 @@ public class UserService {
 
     public boolean authenticate(String username, String password) {
         List<User> users = this.getAllUsers();
+        if (users.isEmpty()) {
+            return false;
+        }
+        
         for (User user : users) {
-            if (user.getUsername().equals(username) && passwordService.verifyPassword(password, user.getPassword())) {
+            var hashedPassword = user.getPassword();
+            if (user.getUsername().equals(username) && passwordService.verifyPassword(password, hashedPassword)) {
                 return true;
             }
         }
@@ -41,9 +46,9 @@ public class UserService {
 
     public UserResponseDTO createUser(User userRequestDTO) {
         User user = new User();
-        String hashedPassword = this.passwordService.hashPassword(userRequestDTO.getPassword());
         user.setName(userRequestDTO.getName());
         user.setUsername(userRequestDTO.getUsername());
+        String hashedPassword = this.passwordService.hashPassword(userRequestDTO.getPassword());
         user.setPassword(hashedPassword);
         this.userRepository.save(user);
         return new UserResponseDTO(user.getName(), user.getUsername(), user.getPassword());
@@ -51,10 +56,11 @@ public class UserService {
 
     public UserResponseDTO updateUser(long id, UserRequestDTO userRequestDTO) {
         Optional<User> user = this.userRepository.findById(id);
-        user.get().setName(userRequestDTO.getName());
-        user.get().setUsername(userRequestDTO.getUsername());
-        user.get().setPassword(userRequestDTO.getPassword());
         if (user.isPresent()) {
+            user.get().setName(userRequestDTO.getName());
+            user.get().setUsername(userRequestDTO.getUsername());
+            String hashedPassword = this.passwordService.hashPassword(userRequestDTO.getPassword());
+            user.get().setPassword(hashedPassword);
             User updatedUser = this.userRepository.save(user.get());
             return new UserResponseDTO(updatedUser.getName(), updatedUser.getUsername(), updatedUser.getPassword());
         } else {

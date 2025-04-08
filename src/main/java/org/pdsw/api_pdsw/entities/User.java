@@ -10,6 +10,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String username;
+    private String password;
 
     public String getName() {
         return name;
@@ -18,8 +20,6 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-    private String username;
-    private String password;
 
     public String getUsername() {
         return username;

@@ -21,13 +21,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO) {
         User newUser = new User();
         newUser.setName(userRequestDTO.getName());
         newUser.setUsername(userRequestDTO.getUsername());
-        newUser.setPassword(passwordService.hashPassword(userRequestDTO.getPassword()));
-        this.userService.createUser(newUser);
-        return ResponseEntity.ok("User created");
+        newUser.setPassword(userRequestDTO.getPassword());
+        UserResponseDTO createdUser = this.userService.createUser(newUser);
+        return ResponseEntity.ok(createdUser);
     }
 
     @GetMapping("/{id}")
@@ -41,7 +41,7 @@ public class UserController {
         User newUser = new User();
         newUser.setName(userRequestDTO.getName());
         newUser.setUsername(userRequestDTO.getUsername());
-        newUser.setPassword(passwordService.hashPassword(userRequestDTO.getPassword()));
+        newUser.setPassword(userRequestDTO.getPassword());
         this.userService.updateUser(id, userRequestDTO);
         return ResponseEntity.ok("User updated");
     }

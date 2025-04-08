@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TestDataConfig {
 
-//    @Bean
-//    public CommandLineRunner initDatabase(UserRepository userRepository) {
-//        return args -> {
-//            User user = new User();
-//            user.setUsername("user1");
-//            user.setPassword("pass123");
-//            userRepository.save(user);
-//        };
-//    }
+    @Bean
+    public CommandLineRunner initDatabase(UserRepository userRepository) {
+        return args -> {
+            User user = new User();
+            user.setUsername("user1");
+            user.setPassword("pass123");
+            userRepository.save(user);
+        };
+    }
 }
