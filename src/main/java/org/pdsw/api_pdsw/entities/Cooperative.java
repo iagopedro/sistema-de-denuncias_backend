@@ -5,13 +5,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
-@Table(name = "tb_report")
+@Table(name = "tb_cooperative")
 public class Cooperative {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)  
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
@@ -21,6 +23,6 @@ public class Cooperative {
   private String email;
 
   private String phone;
-  
+
   private String password;
 }
