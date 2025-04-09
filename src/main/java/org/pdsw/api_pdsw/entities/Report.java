@@ -33,6 +33,10 @@ public class Report {
   @Column(name = "created_at")
   private LocalDate createdAt;
 
+  private LocalDate scheduledAt;
+
+  private LocalDate collectedAt;
+
   @Column(nullable = false)
   private Category type;
 

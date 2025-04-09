@@ -68,4 +68,28 @@ public class ReportService {
   public List<Report> getReportsByUserId(Long userId) {
       return reportRepository.findByUserId(userId);
   }
+
+  public Report scheduleReport(Long id, Long cooperativeId) {
+    Report report = reportRepository.findById(id).orElse(null);
+    if (report != null) {
+      report.setCooperative(cooperativeService.getCooperativeById(cooperativeId).orElse(null));
+      report.setScheduledAt(LocalDate.now());
+      report.setStatus(ReportStatus.SCHEDULED);
+      return reportRepository.save(report);
+    }
+    return null;
+  }
+  public List<Report> getReportsByCooperativeId(Long cooperativeId) {
+    return reportRepository.findByCooperativeId(cooperativeId);
+  }
+
+  public Report collectReport(Long id) {
+    Report report = reportRepository.findById(id).orElse(null);
+    if (report != null && report.getStatus() == ReportStatus.SCHEDULED) {
+      report.setCollectedAt(LocalDate.now());
+      report.setStatus(ReportStatus.COLLECTED);
+      return reportRepository.save(report);
+    }
+    return null;
+  }
 }

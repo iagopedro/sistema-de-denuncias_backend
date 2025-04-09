@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,4 +50,16 @@ public class ReportController {
       return ResponseEntity.ok(report);
   }
 
+  @PutMapping("/schedule")
+  public ResponseEntity<Report> scheduleReport(@RequestParam Long reportId, @RequestParam Long cooperativeId) {
+      Report updatedReport = reportService.scheduleReport(reportId, cooperativeId);
+      return ResponseEntity.ok(updatedReport);
+  }
+
+  @PutMapping("/collect")
+  public ResponseEntity<Report> collectReport(@RequestParam Long reportId, @RequestParam Long cooperativeId) {
+      Report updatedReport = reportService.collectReport(reportId);
+      return ResponseEntity.ok(updatedReport);
+  }
+  
 }
