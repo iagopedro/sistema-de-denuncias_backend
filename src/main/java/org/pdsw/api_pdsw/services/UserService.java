@@ -2,6 +2,7 @@ package org.pdsw.api_pdsw.services;
 
 import org.pdsw.api_pdsw.dto.UserRequestDTO;
 import org.pdsw.api_pdsw.dto.UserResponseDTO;
+import org.pdsw.api_pdsw.entities.Cooperative;
 import org.pdsw.api_pdsw.entities.User;
 import org.pdsw.api_pdsw.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordService passwordService;
+    private final CooperativeService cooperativeService;
 
-    public UserService(UserRepository userRepository, PasswordService passwordService) {
+    public UserService(UserRepository userRepository, PasswordService passwordService, CooperativeService cooperativeService) {
         this.userRepository = userRepository;
         this.passwordService = passwordService;
+        this.cooperativeService = cooperativeService;
     }
 
     public boolean authenticate(String email, String password) {
@@ -29,6 +32,22 @@ public class UserService {
         for (User user : users) {
             var hashedPassword = user.getPassword();
             if (user.getEmail().equals(email) && passwordService.verifyPassword(password, hashedPassword)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // TODO: move to CooperativeService
+    public boolean authenticateCooperative(String cnpj, String password) {
+        List<Cooperative> cooperatives = this.cooperativeService.getAllCooperatives();
+        if (cooperatives.isEmpty()) {
+            return false;
+        }
+        
+        for (Cooperative cooperative : cooperatives) {
+            var hashedPassword = cooperative.getPassword();
+            if (cooperative.getCnpj().equals(cnpj) && passwordService.verifyPassword(password, hashedPassword)) {
                 return true;
             }
         }

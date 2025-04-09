@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 public class CooperativeService {
 
     private final CooperativeRepository cooperativeRepository;
+    private final PasswordService passwordService;
 
-    public CooperativeService(CooperativeRepository cooperativeRepository) {
+    public CooperativeService(CooperativeRepository cooperativeRepository, PasswordService passwordService) {
         this.cooperativeRepository = cooperativeRepository;
+        this.passwordService = passwordService;
     }
     
     public List<Cooperative> getAllCooperatives() {
@@ -21,6 +23,8 @@ public class CooperativeService {
     }
 
     public Cooperative createCooperative(Cooperative cooperative) {
+        var hashedPassword = passwordService.hashPassword(cooperative.getPassword());
+        cooperative.setPassword(hashedPassword);
         return this.cooperativeRepository.save(cooperative);
     }
 

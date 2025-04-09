@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordService {
 
+    // This class should be a utility class 
     private final PasswordEncoder passwordEncoder;
 
     public PasswordService() {
