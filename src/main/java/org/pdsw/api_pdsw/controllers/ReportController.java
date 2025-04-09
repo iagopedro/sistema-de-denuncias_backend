@@ -1,6 +1,7 @@
 package org.pdsw.api_pdsw.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.pdsw.api_pdsw.entities.Report;
 import org.pdsw.api_pdsw.services.ReportService;
@@ -10,10 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/report")
+@RequestMapping("/reports")
 public class ReportController {
 
   private ReportService reportService;
@@ -29,8 +31,8 @@ public class ReportController {
   }
 
   @PostMapping
-  public ResponseEntity<Report> createReport(@RequestBody Report report) {
-      Report createdReport = reportService.createReport(report);
+  public ResponseEntity<Report> createReport(@RequestBody Report report, @RequestParam Long userId, @RequestParam(required = false) Optional<Long> cooperativeId) { 
+      Report createdReport = reportService.createReport(report, userId, cooperativeId);
       return ResponseEntity.status(HttpStatus.CREATED).body(createdReport);
   }
 }

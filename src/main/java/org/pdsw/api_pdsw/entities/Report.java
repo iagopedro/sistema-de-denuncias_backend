@@ -30,7 +30,7 @@ public class Report {
   @Column(nullable = false)
   private ReportStatus status;
 
-  @Column(name = "created_at", nullable = false)
+  @Column(name = "created_at")
   private LocalDate createdAt;
 
   @Column(nullable = false)
@@ -54,10 +54,6 @@ public class Report {
   @OneToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
- 
-  // @OneToOne
-  // @JoinColumn(name = "location_id", nullable = false)
-  // private Location location;
   
   @OneToOne
   @JoinColumn(name = "cooperative_id", nullable = true)
