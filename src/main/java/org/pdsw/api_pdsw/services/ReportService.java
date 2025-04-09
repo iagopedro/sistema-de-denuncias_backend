@@ -25,20 +25,20 @@ public class ReportService {
   }
 
   public List<Report> getAllReports() {
-      return reportRepository.findAll();
+    return reportRepository.findAll();
   }
 
   public Report createReport(Report report, Long userId, Optional<Long> cooperativeId) {
     if (report.getType() == null) {
-        throw new IllegalArgumentException("Report type cannot be null");
+      throw new IllegalArgumentException("Report type cannot be null");
     }
 
     if (report.getCreatedAt() == null) {
-        report.setCreatedAt(LocalDate.now());
+      report.setCreatedAt(LocalDate.now());
     }
 
     if (report.getStatus() == null) {
-        report.setStatus(ReportStatus.PENDING);
+      report.setStatus(ReportStatus.PENDING);
     }
 
     UserResponseDTO savedUser = userService.getUserById(userId);
@@ -52,9 +52,9 @@ public class ReportService {
     report.setUser(user);
 
     if (cooperativeId.isPresent()) {
-        report.setCooperative(cooperativeService.getCooperativeById(cooperativeId.get()).orElse(null));
+      report.setCooperative(cooperativeService.getCooperativeById(cooperativeId.get()).orElse(null));
     } else {
-        report.setCooperative(null);
+      report.setCooperative(null);
     }
 
     return reportRepository.save(report);
@@ -62,6 +62,10 @@ public class ReportService {
   }
 
   public Report getReportById(Long id) {
-      return reportRepository.findById(id).orElse(null);
+    return reportRepository.findById(id).orElse(null);
+  }
+
+  public List<Report> getReportsByUserId(Long userId) {
+      return reportRepository.findByUserId(userId);
   }
 }

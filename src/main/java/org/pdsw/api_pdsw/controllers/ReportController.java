@@ -8,6 +8,7 @@ import org.pdsw.api_pdsw.services.ReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,4 +36,17 @@ public class ReportController {
       Report createdReport = reportService.createReport(report, userId, cooperativeId);
       return ResponseEntity.status(HttpStatus.CREATED).body(createdReport);
   }
+
+  @GetMapping("/user/{userId}")
+  public ResponseEntity<List<Report>> getReportsByUserId(@PathVariable Long userId) {
+      List<Report> reports = reportService.getReportsByUserId(userId);
+      return ResponseEntity.ok(reports);
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<Report> getReportById(@PathVariable Long id) {
+      Report report = reportService.getReportById(id);
+      return ResponseEntity.ok(report);
+  }
+
 }

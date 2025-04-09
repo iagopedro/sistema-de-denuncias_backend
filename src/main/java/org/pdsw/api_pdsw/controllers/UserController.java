@@ -4,6 +4,7 @@ import org.pdsw.api_pdsw.dto.UserRequestDTO;
 import org.pdsw.api_pdsw.dto.UserResponseDTO;
 import org.pdsw.api_pdsw.entities.User;
 import org.pdsw.api_pdsw.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class UserController {
         newUser.setEmail(userRequestDTO.getEmail());
         newUser.setPassword(userRequestDTO.getPassword());
         UserResponseDTO createdUser = this.userService.createUser(newUser);
-        return ResponseEntity.ok(createdUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     // @GetMapping("/{id}")
