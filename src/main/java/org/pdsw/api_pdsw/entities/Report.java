@@ -55,6 +55,12 @@ public class Report {
   @Column(nullable = false)
   private String neighborhood;
 
+  @Column(nullable = false)
+  private String latitude;
+
+  @Column(nullable = false)
+  private String longitude;
+
   @OneToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
