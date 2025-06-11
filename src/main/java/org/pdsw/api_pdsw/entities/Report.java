@@ -64,9 +64,5 @@ public class Report {
   @OneToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
-  
-  @OneToOne
-  @JoinColumn(name = "cooperative_id", nullable = true)
-  private Cooperative cooperative;
 
 }

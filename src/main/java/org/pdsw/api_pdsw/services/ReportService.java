@@ -16,12 +16,10 @@ public class ReportService {
 
   private final ReportRepository reportRepository;
   private final UserService userService;
-  private final CooperativeService cooperativeService;
 
-  public ReportService(ReportRepository reportRepository, UserService userService, CooperativeService cooperativeService) {
+  public ReportService(ReportRepository reportRepository, UserService userService) {
     this.reportRepository = reportRepository;
     this.userService = userService;
-    this.cooperativeService = cooperativeService;
   }
 
   public List<Report> getAllReports() {
@@ -51,12 +49,6 @@ public class ReportService {
 
     report.setUser(user);
 
-    if (cooperativeId.isPresent()) {
-      report.setCooperative(cooperativeService.getCooperativeById(cooperativeId.get()).orElse(null));
-    } else {
-      report.setCooperative(null);
-    }
-
     return reportRepository.save(report);
 
   }
@@ -72,7 +64,6 @@ public class ReportService {
   public Report scheduleReport(Long id, Long cooperativeId) {
     Report report = reportRepository.findById(id).orElse(null);
     if (report != null) {
-      report.setCooperative(cooperativeService.getCooperativeById(cooperativeId).orElse(null));
       report.setScheduledAt(LocalDate.now());
       report.setStatus(ReportStatus.SCHEDULED);
       return reportRepository.save(report);

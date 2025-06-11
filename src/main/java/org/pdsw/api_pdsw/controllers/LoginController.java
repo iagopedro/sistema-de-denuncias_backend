@@ -1,6 +1,5 @@
 package org.pdsw.api_pdsw.controllers;
 
-import org.pdsw.api_pdsw.dto.CooperativeRequestDTO;
 import org.pdsw.api_pdsw.dto.UserRequestDTO;
 import org.pdsw.api_pdsw.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -24,20 +23,4 @@ public class LoginController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found. Invalid credentials!");
     }
-
-    @PostMapping("/cooperative")
-    public ResponseEntity<String> loginCooperative(@RequestBody CooperativeRequestDTO cooperativeRequestDTO) {
-        if (userService.authenticateCooperative(cooperativeRequestDTO.getCnpj(), cooperativeRequestDTO.getPassword())) {
-            return ResponseEntity.ok().body("Login successful");
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found. Invalid credentials!");
-    }
-
-    // @PostMapping("/admin")
-    // public ResponseEntity<String> loginAdmin(@RequestBody UserRequestDTO userRequestDTO) {
-    //     if (userService.authenticateAdmin(userRequestDTO.getEmail(), userRequestDTO.getPassword())) {
-    //         return ResponseEntity.ok().body("Login successful");
-    //     }
-    //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found. Invalid credentials!");
-    // }
 }
