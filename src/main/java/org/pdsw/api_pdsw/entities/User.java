@@ -1,7 +1,5 @@
 package org.pdsw.api_pdsw.entities;
 
-import org.pdsw.api_pdsw.entities.enums.UserType;
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,9 +20,7 @@ public class User {
 
     @Column(nullable = false)
     private String password;
-
-    private String picture;
     
-    private UserType type;
+    private String type;
 
 }
